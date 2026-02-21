@@ -10,7 +10,7 @@
 
 # ── CELL 1: Clone your repo ───────────────────────────────────────────────────
 # Replace with your actual GitHub URL after pushing
-GITHUB_URL = "https://github.com/YOUR_USERNAME/HC2.git"
+GITHUB_URL = "https://github.com/Fadhi-source/diabetic-eye-ai.git"
 
 import os, sys
 !git clone {GITHUB_URL} /content/HC2

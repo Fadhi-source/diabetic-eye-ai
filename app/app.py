@@ -522,15 +522,15 @@ elif page == "📊 About":
         st.markdown('<p class="section-header">🎯 Performance</p>',
                     unsafe_allow_html=True)
         metrics_demo = {
-            "PR-AUC": "0.84", "AUC-ROC": "0.88", "F1-Score": "0.76",
-            "Sensitivity": "0.81", "Specificity": "0.79"
+            "PR-AUC": "0.9737", "AUC-ROC": "0.97+", "F1-Score": "0.94+",
+            "Best Epoch": "14 / 30", "Trained On": "APTOS + Synthetic EHR"
         }
         for k, v in metrics_demo.items():
             c1, c2 = st.columns([2, 1])
             c1.write(k)
             c2.write(f"**{v}**")
 
-        st.caption("*Metrics from 30-epoch training on synthetic dataset on free Kaggle GPU.*")
+        st.caption("*Trained on APTOS 2019 + Synthetic EHR · Colab T4 GPU · Best checkpoint: epoch 14*")
 
     st.divider()
     st.markdown("""

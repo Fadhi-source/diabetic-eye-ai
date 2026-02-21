@@ -10,8 +10,8 @@ __pycache__/
 *.pyd
 .Python
 
-# Training outputs
-checkpoints/
+# Training outputs — checkpoints are included so the app works out of the box
+# checkpoints/   ← intentionally NOT ignored; best .ckpt is committed
 logs/
 
 # IDE

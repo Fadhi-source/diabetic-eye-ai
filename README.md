@@ -179,13 +179,12 @@ Open `http://localhost:8501` in your browser.
 
 | Metric | Value | 95% CI |
 |--------|-------|--------|
-| PR-AUC | 0.84 | [0.81, 0.87] |
-| AUC-ROC | 0.88 | [0.86, 0.91] |
-| F1-Score | 0.76 | — |
-| Sensitivity | 0.81 | — |
-| Specificity | 0.79 | — |
+| PR-AUC | 0.983 | — |
+| AUC-ROC | 0.989 | — |
+| F1-Score | 0.927 | — |
+| Best val/PR-AUC | 0.974 | — |
 
-> *30-epoch training on synthetic + APTOS data, Kaggle P100 GPU (~2 hrs)*
+> *Early stopping at epoch 14 — trained on APTOS 2019 + synthetic EHR data, Colab T4 GPU (~2.5 hrs)*
 
 ### Subgroup Fairness
 

@@ -116,8 +116,8 @@ HC2/
 ### 1. Clone & install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/diabeticeye-ai.git
-cd diabeticeye-ai
+git clone https://github.com/Fadhi-source/diabetic-eye-ai.git
+cd diabetic-eye-ai
 pip install -r requirements.txt
 ```
 
@@ -231,7 +231,7 @@ docker run -p 8501:8501 diabeticeye-ai
 
 1. Push this repo to a Hugging Face Space (Docker SDK)
 2. The `Dockerfile` will handle the build automatically
-3. Your live demo URL will be: `https://huggingface.co/spaces/YOUR_USERNAME/diabeticeye-ai`
+3. Your live demo URL will be: `https://huggingface.co/spaces/Fadhi-source/diabetic-eye-ai`
 
 ---
 

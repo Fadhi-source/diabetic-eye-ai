@@ -1,0 +1,23 @@
+# Large data files
+data/images/
+data/merged.csv
+
+# Python environment
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Training outputs
+checkpoints/
+logs/
+
+# IDE
+.vscode/
+
+# Misc
+*.zip
+*.tar.gz
+.DS_Store

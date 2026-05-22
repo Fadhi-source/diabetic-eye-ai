@@ -77,7 +77,7 @@ def train(
         freeze_ratio=freeze_ratio,
     )
 
-    logger = (
+    pl_logger = (
         WandbLogger(project=WANDB_PROJECT, entity=WANDB_ENTITY, log_model="all")
         if use_wandb
         else TensorBoardLogger(save_dir=LOGS_DIR, name="multimodal_predictor")
@@ -93,7 +93,7 @@ def train(
         accelerator="auto",
         devices=1,
         precision="16-mixed",
-        logger=logger,
+        logger=pl_logger,
         callbacks=callbacks,
         log_every_n_steps=5,
         deterministic=True,

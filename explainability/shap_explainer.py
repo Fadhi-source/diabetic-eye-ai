@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from typing import Optional, List
 
 from models.multimodal_model import MultiModalModel
-from config import ALL_FEATURES, TABULAR_INPUT_DIM
+from config import ALL_FEATURES
 
 
 class TabularOnlyWrapper(nn.Module):

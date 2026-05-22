@@ -9,7 +9,7 @@ always land in the same split, preventing data leakage.
 import os
 import numpy as np
 import pandas as pd
-from typing import Tuple, Optional, Dict
+from typing import Tuple, Dict
 from PIL import Image
 from loguru import logger
 
@@ -20,8 +20,8 @@ from sklearn.preprocessing import StandardScaler
 
 from config import (
     SYNTHETIC_CSV, IMAGE_DIR,
-    CONTINUOUS_FEATURES, CATEGORICAL_FEATURES, ALL_FEATURES,
-    TABULAR_INPUT_DIM, TRAIN_RATIO, VAL_RATIO, RANDOM_SEED, BATCH_SIZE, NUM_WORKERS
+    CONTINUOUS_FEATURES, CATEGORICAL_FEATURES,
+    VAL_RATIO, RANDOM_SEED, BATCH_SIZE, NUM_WORKERS
 )
 from data.transforms import get_train_transforms, get_val_transforms
 

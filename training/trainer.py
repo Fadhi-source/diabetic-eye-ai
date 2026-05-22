@@ -1,5 +1,4 @@
 import torch
-import torch.nn as nn
 import pytorch_lightning as pl
 from torchmetrics import AveragePrecision, AUROC, F1Score
 from torchmetrics.classification import BinaryCalibrationError
@@ -9,7 +8,7 @@ from training.loss import BinaryFocalLoss
 from config import (
     LEARNING_RATE, WEIGHT_DECAY, MAX_EPOCHS,
     FOCAL_LOSS_GAMMA, FOCAL_LOSS_ALPHA,
-    LR_SCHEDULER, INFERENCE_THRESHOLD,
+    INFERENCE_THRESHOLD,
 )
 
 

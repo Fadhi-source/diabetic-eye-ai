@@ -10,10 +10,7 @@ Three-page interactive web application:
 Launch with: streamlit run app/app.py
 """
 
-import os
-
 import streamlit as st
-import numpy as np
 import torch
 import pandas as pd
 from PIL import Image
@@ -21,7 +18,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 
 from config import (
-    ALL_FEATURES, CONTINUOUS_FEATURES, CATEGORICAL_FEATURES,
+    ALL_FEATURES,
     TABULAR_INPUT_DIM, CHECKPOINTS_DIR, SAMPLE_DIR,
     INFERENCE_THRESHOLD
 )

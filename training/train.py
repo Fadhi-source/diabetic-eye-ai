@@ -8,19 +8,17 @@ Usage:
     python training/train.py --smoke_test                       # 1 epoch, 4 samples
 """
 
-import os
 import argparse
 
-import torch
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger, TensorBoardLogger
 import optuna
 from loguru import logger
 
 from config import (
-    SYNTHETIC_CSV, IMAGE_DIR, CHECKPOINTS_DIR, LOGS_DIR,
+    SYNTHETIC_CSV, IMAGE_DIR, LOGS_DIR,
     BATCH_SIZE, MAX_EPOCHS, LEARNING_RATE, WEIGHT_DECAY,
-    WANDB_PROJECT, WANDB_ENTITY, HPO_N_TRIALS, HPO_METRIC, HPO_DIRECTION,
+    WANDB_PROJECT, WANDB_ENTITY, HPO_N_TRIALS, HPO_DIRECTION,
     RANDOM_SEED,
 )
 from data.dataset import create_dataloaders

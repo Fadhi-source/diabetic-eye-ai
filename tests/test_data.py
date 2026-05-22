@@ -1,13 +1,12 @@
 import pandas as pd
-import torch
+
+from data.dataset import DiabeticDataset, create_dataloaders
+from config import TRAIN_RATIO, VAL_RATIO, TEST_RATIO, CONTINUOUS_FEATURES
+from sklearn.preprocessing import StandardScaler
 
 
 class TestDiabeticDataset:
     def test_dataset_output_shapes(self):
-        from data.dataset import DiabeticDataset
-        from sklearn.preprocessing import StandardScaler
-        import numpy as np
-
         df = pd.DataFrame({
             "patient_id": [0, 1],
             "complication_label": [0, 1],
@@ -32,7 +31,6 @@ class TestDiabeticDataset:
         })
 
         scaler = StandardScaler()
-        from config import CONTINUOUS_FEATURES
         scaler.fit(df[CONTINUOUS_FEATURES])
 
         ds = DiabeticDataset(df, "", scaler, dummy_images=True)
@@ -43,8 +41,7 @@ class TestDiabeticDataset:
         assert label.item() in (0.0, 1.0)
 
     def test_data_loader_output(self):
-        from data.dataset import create_dataloaders
-        import tempfile, os, time
+        import os, tempfile, time
 
         df = pd.DataFrame({
             "patient_id": range(20),
@@ -75,7 +72,6 @@ class TestDiabeticDataset:
             assert images.shape[0] == tabular.shape[0] == labels.shape[0]
 
     def test_train_val_test_split_sums(self):
-        from config import TRAIN_RATIO, VAL_RATIO, TEST_RATIO
         total = TRAIN_RATIO + VAL_RATIO + TEST_RATIO
         assert abs(total - 1.0) < 1e-6, f"Splits must sum to 1.0, got {total}"
 

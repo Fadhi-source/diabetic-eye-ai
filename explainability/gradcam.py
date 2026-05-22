@@ -6,9 +6,7 @@ Grad-CAM++ heatmap generation for the EfficientNet image branch.
 import numpy as np
 import torch
 import torch.nn as nn
-import cv2
 from PIL import Image
-from typing import Optional
 
 from pytorch_grad_cam import GradCAMPlusPlus
 from pytorch_grad_cam.utils.image import show_cam_on_image
@@ -16,7 +14,6 @@ from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 
 from models.multimodal_model import MultiModalModel
 from data.transforms import get_val_transforms
-from config import TABULAR_INPUT_DIM
 
 
 class ImageOnlyWrapper(nn.Module):

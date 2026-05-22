@@ -8,16 +8,14 @@ Usage:
     python training/train.py --smoke_test                       # 1 epoch, 4 samples
 """
 
-import sys
 import os
 import argparse
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import torch
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger, TensorBoardLogger
 import optuna
+from loguru import logger
 
 from config import (
     SYNTHETIC_CSV, IMAGE_DIR, CHECKPOINTS_DIR, LOGS_DIR,
@@ -116,11 +114,9 @@ def train(
             dataloaders=loaders["test"],
         )
 
-    print(f"\n{'='*55}")
-    print(f"  Best val/pr_auc : {float(best_val_score):.4f}")
+    logger.info(f"Best val/pr_auc: {float(best_val_score):.4f}")
     if best_model_path:
-        print(f"  Best checkpoint : {best_model_path}")
-    print(f"{'='*55}\n")
+        logger.info(f"Best checkpoint: {best_model_path}")
 
     return float(best_val_score)
 
@@ -143,13 +139,13 @@ def main():
     args = parse_args()
 
     if args.smoke_test:
-        print("\n[SMOKE TEST] 1 epoch, 4 dummy samples\n")
+        logger.info("Smoke test mode: 1 epoch, 4 dummy samples")
         score = train(smoke_test=True, num_workers=args.num_workers)
-        print(f"Smoke test val/pr_auc = {score:.4f}")
+        logger.info(f"Smoke test val/pr_auc = {score:.4f}")
         return
 
     if args.hpo:
-        print(f"\n[HPO] {args.n_trials} Optuna trials\n")
+        logger.info(f"Starting HPO with {args.n_trials} Optuna trials")
         study = optuna.create_study(
             direction=HPO_DIRECTION,
             study_name="multimodal_diabetic_hpo",
@@ -158,7 +154,7 @@ def main():
             load_if_exists=True,
         )
         study.optimize(lambda trial: hpo_objective(trial, args), n_trials=args.n_trials, show_progress_bar=True)
-        print(f"\n[HPO COMPLETE]  Best value: {study.best_value:.4f}  |  Best params: {study.best_params}")
+        logger.info(f"HPO complete - best: {study.best_value:.4f} | params: {study.best_params}")
         return
 
     train(

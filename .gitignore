@@ -17,6 +17,16 @@ logs/
 # IDE
 .vscode/
 
+# Build artifacts
+*.egg-info/
+*.egg
+.pytest_cache/
+dist/
+build/
+
+# Personal
+INTERVIEW_CRASH_GUIDE.txt
+
 # Misc
 *.zip
 *.tar.gz

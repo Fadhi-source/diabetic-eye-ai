@@ -7,13 +7,11 @@ Input:  data/aptos_train.csv, data/synthetic_ehr.csv, data/images/
 Output: data/merged.csv
 """
 
-import sys
 import os
 import pandas as pd
 import numpy as np
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 from config import DATA_DIR, IMAGE_DIR, SYNTHETIC_CSV, RANDOM_SEED
 
 np.random.seed(RANDOM_SEED)

@@ -7,19 +7,17 @@ always land in the same split, preventing data leakage.
 """
 
 import os
-import sys
 import numpy as np
 import pandas as pd
-from pathlib import Path
 from typing import Tuple, Optional, Dict
 from PIL import Image
+from loguru import logger
 
 import torch
 from torch.utils.data import Dataset, DataLoader
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 from config import (
     SYNTHETIC_CSV, IMAGE_DIR,
     CONTINUOUS_FEATURES, CATEGORICAL_FEATURES, ALL_FEATURES,
@@ -146,7 +144,7 @@ def create_dataloaders(
                             num_workers=num_workers, pin_memory=True),
     }
 
-    print(f"[DataLoader] Train: {len(train_ds)} | Val: {len(val_ds)} | Test: {len(test_ds)}")
+    logger.info(f"DataLoader | Train: {len(train_ds)} | Val: {len(val_ds)} | Test: {len(test_ds)}")
     return loaders, scaler
 
 

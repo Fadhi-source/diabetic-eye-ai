@@ -3,10 +3,6 @@ explainability/shap_explainer.py
 SHAP (GradientExplainer) for tabular feature attribution.
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
 import numpy as np
 import torch
 import torch.nn as nn

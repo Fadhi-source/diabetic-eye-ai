@@ -3,10 +3,6 @@ evaluation/metrics.py
 Classification metrics with bootstrapped CIs, calibration, ROC/PR curves, and subgroup analysis.
 """
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -194,8 +190,9 @@ def subgroup_analysis(
             if gt.sum() == 0 or len(gt) < 10:
                 continue
 
-            auc = roc_auc_score(gt, gp) if gt.nunique() > 1 else float("nan")
-            pr  = average_precision_score(gt, gp) if gt.nunique() > 1 else float("nan")
+            n_unique = len(np.unique(gt))
+            auc = roc_auc_score(gt, gp) if n_unique > 1 else float("nan")
+            pr  = average_precision_score(gt, gp) if n_unique > 1 else float("nan")
             f1  = f1_score(gt, (gp >= threshold).astype(int), zero_division=0)
 
             records.append({

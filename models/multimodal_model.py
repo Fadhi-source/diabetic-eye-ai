@@ -1,7 +1,4 @@
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
+from loguru import logger
 import torch
 import torch.nn as nn
 from config import FUSION_DIM, NUM_CLASSES
@@ -71,7 +68,7 @@ class MultiModalModel(nn.Module):
     def fine_tune_mode(self) -> None:
         """Unfreeze top 30% of image backbone for end-to-end fine-tuning."""
         self.image_branch.unfreeze_top(top_ratio=0.30)
-        print("[MultiModalModel] Entered fine-tuning mode")
+        logger.info("Entered fine-tuning mode")
 
     def count_parameters(self) -> dict:
         trainable = sum(p.numel() for p in self.parameters() if p.requires_grad)

@@ -9,13 +9,9 @@ Usage: python data/generate_synthetic_data.py
 Output: data/synthetic_ehr.csv
 """
 
-import os
-import sys
 import numpy as np
 import pandas as pd
-from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 from config import SYNTHETIC_CSV, NUM_SYNTHETIC_PATIENTS, RANDOM_SEED
 
 np.random.seed(RANDOM_SEED)

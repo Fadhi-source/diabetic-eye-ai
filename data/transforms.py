@@ -9,9 +9,6 @@ import torch
 from torchvision import transforms
 from PIL import Image
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 from config import IMAGE_SIZE
 
 IMAGENET_MEAN = [0.485, 0.456, 0.406]

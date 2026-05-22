@@ -8,15 +8,13 @@ Usage:
     python evaluation/evaluate.py --smoke_test
 """
 
-import sys
 import os
 import argparse
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import numpy as np
 import pandas as pd
 import torch
+from loguru import logger
 from tqdm import tqdm
 
 from config import SYNTHETIC_CSV, IMAGE_DIR, CHECKPOINTS_DIR, LOGS_DIR, BATCH_SIZE, RANDOM_SEED
@@ -61,11 +59,11 @@ def main():
         ckpt_files = sorted(Path(CHECKPOINTS_DIR).glob("best-*.ckpt"))
         ckpt_path  = str(ckpt_files[-1]) if ckpt_files else None
 
-    if ckpt_path and Path(ckpt_path).exists():
-        print(f"Loading checkpoint: {ckpt_path}")
+    if ckpt_path and os.path.exists(ckpt_path):
+        logger.info(f"Loading checkpoint: {ckpt_path}")
         model = DiabetesLightningModule.load_from_checkpoint(ckpt_path, map_location=device).model
     else:
-        print("⚠️  No checkpoint found. Using untrained model.")
+        logger.warning("No checkpoint found. Using untrained model.")
         model = MultiModalModel(pretrained=False)
 
     model = model.to(device).eval()
@@ -78,32 +76,31 @@ def main():
         num_workers=0,
     )
 
-    print("\n[1/4] Running inference on test set...")
+    logger.info("Running inference on test set")
     y_true, y_prob = collect_predictions(model, loaders["test"], device)
 
     best_thresh, _ = optimal_threshold(y_true, y_prob, method="youden")
-    print(f"\n[2/4] Optimal threshold (Youden-J): {best_thresh:.3f}")
+    logger.info(f"Optimal threshold (Youden-J): {best_thresh:.3f}")
 
     metrics = compute_classification_metrics(y_true, y_prob, threshold=best_thresh)
     print_metrics(metrics)
 
     if args.save_plots:
-        print("[3/4] Saving evaluation plots...")
+        logger.info("Saving evaluation plots")
         os.makedirs(LOGS_DIR, exist_ok=True)
         plot_roc_pr_curves(y_true, y_prob, save_path=os.path.join(LOGS_DIR, "roc_pr_curves.png"))
         plot_calibration_curve(y_true, y_prob, save_path=os.path.join(LOGS_DIR, "calibration_curve.png"))
-        print(f"  Plots saved → {LOGS_DIR}/")
+        logger.info(f"Plots saved to {LOGS_DIR}/")
 
-    print("[4/4] Running subgroup analysis...")
+    logger.info("Running subgroup analysis")
     df_test  = pd.read_csv(SYNTHETIC_CSV).sample(n=len(y_true), random_state=RANDOM_SEED).reset_index(drop=True)
     df_test["age_group"] = pd.cut(df_test["age"], bins=[0, 45, 60, 100], labels=["<45", "45-60", ">60"])
 
     sg_results = subgroup_analysis(y_true, y_prob, df_test[["gender", "age_group", "rural_urban", "hypertension"]])
-    print("\n  Subgroup AUC-ROC / F1:")
-    print(sg_results.to_string(index=False))
+    logger.info("Subgroup AUC-ROC / F1:\n" + sg_results.to_string(index=False))
     sg_results.to_csv(os.path.join(LOGS_DIR, "subgroup_analysis.csv"), index=False)
-    print(f"\n  Subgroup table saved → {LOGS_DIR}/subgroup_analysis.csv")
-    print("\n✅ Evaluation complete.")
+    logger.info(f"Subgroup table saved to {LOGS_DIR}/subgroup_analysis.csv")
+    logger.info("Evaluation complete")
 
     return metrics
 

@@ -1,7 +1,4 @@
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
+from loguru import logger
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import (
     ModelCheckpoint,
@@ -59,10 +56,10 @@ class BackboneFineTuneCallback(pl.Callback):
 
     def on_train_epoch_start(self, trainer: pl.Trainer, pl_module: pl.LightningModule) -> None:
         if trainer.current_epoch == self.unfreeze_epoch and not self._unfrozen:
-            print(f"\n[FineTune] Epoch {self.unfreeze_epoch}: unfreezing top 30% of backbone")
+            logger.info(f"Epoch {self.unfreeze_epoch}: unfreezing top 30% of backbone")
             pl_module.model.fine_tune_mode()
 
             for g in trainer.optimizers[0].param_groups:
                 g["lr"] /= self.lr_scale
-            print(f"[FineTune] LR reduced by {self.lr_scale}x")
+            logger.info(f"LR reduced by {self.lr_scale}x")
             self._unfrozen = True

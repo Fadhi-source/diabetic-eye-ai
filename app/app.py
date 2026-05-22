@@ -10,10 +10,7 @@ Three-page interactive web application:
 Launch with: streamlit run app/app.py
 """
 
-import sys
 import os
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 import streamlit as st
 import numpy as np

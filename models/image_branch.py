@@ -1,7 +1,4 @@
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
+from loguru import logger
 import timm
 import torch
 import torch.nn as nn
@@ -53,7 +50,7 @@ class ImageBranch(nn.Module):
 
         frozen = sum(1 for p in self.backbone.parameters() if not p.requires_grad)
         total  = sum(1 for p in self.backbone.parameters())
-        print(f"[ImageBranch] Frozen {frozen}/{total} backbone params ({freeze_ratio*100:.0f}%)")
+        logger.info(f"Frozen {frozen}/{total} backbone params ({freeze_ratio*100:.0f}%)")
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.head(self.backbone(x))
@@ -64,7 +61,7 @@ class ImageBranch(nn.Module):
         n_unfreeze = int(len(all_params) * top_ratio)
         for param in all_params[-n_unfreeze:]:
             param.requires_grad = True
-        print(f"[ImageBranch] Unfrozen top {top_ratio*100:.0f}% of backbone")
+        logger.info(f"Unfrozen top {top_ratio*100:.0f}% of backbone")
 
 
 if __name__ == "__main__":
